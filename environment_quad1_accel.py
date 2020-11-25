@@ -2,7 +2,7 @@
 """
 This script provides the environment for a quadrotor tracking simulation.
 
-A 6-dof quadrotor is tasked with tracking a moving target quadrotor.
+A 2-dof quadrotor is tasked with tracking a moving target quadrotor using acceleration-based deep guidance.
 
 All dynamic environments I create will have a standardized architecture. The
 reason for this is I have one learning algorithm and many environments. All
@@ -67,22 +67,6 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib.gridspec as gridspec
 from mpl_toolkits.mplot3d import Axes3D
-
-
-
-
-# For printing out all variables and their sizes
-def sizeof_fmt(num, suffix='B'):
-    ''' by Fred Cirera,  https://stackoverflow.com/a/1094933/1870254, modified'''
-    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
-        if abs(num) < 1024.0:
-            return "%3.1f %s%s" % (num, unit, suffix)
-        num /= 1024.0
-    return "%.1f %s%s" % (num, 'Yi', suffix)
-
-
-
-
 
 
 class Environment:
@@ -495,35 +479,11 @@ class Environment:
                 if self.DYNAMICS_DELAY > 0:
                     self.action_delay_queue.put(action,False) # puts the current action to the bottom of the stack
                     action = self.action_delay_queue.get(False) # grabs the delayed action and treats it as truth.                
-                
-                
-#                time.sleep(0.1)
-#                for name, size in sorted(((name, sys.getsizeof(value)) for name, value in locals().items()),
-#                                     key= lambda x: -x[1])[:10]:
-#                    print("{:>30}: {:>8}".format(name, sizeof_fmt(size)))
-                
-                
+
                 ################################
                 ##### Step the environment #####
                 ################################                
                 reward, done = self.step(action)
-                
-                
-                
-                
-                
-                #print(sys.getsizeof(self.action_delay_queue), sys.getsizeof(self.target_location), sys.getsizeof(action))
-                
-                
-                
-                
-                
-                
-                
-                if (self.counter % 1000) == 0:
-                    pass
-                    #print("Environment.py PID %i is using %2.3f GB of RAM" %(os.getpid(), self.process.memory_info().rss/1000000000.0))
-                self.counter += 1
 
                 # Return (TOTAL_STATE, reward, done, guidance_position)
                 self.env_to_agent.put((np.concatenate([self.chaser_position, np.concatenate([self.target_location, self.chaser_velocity]) ]), reward, done))

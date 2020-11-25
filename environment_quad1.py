@@ -2,7 +2,7 @@
 """
 This script provides the environment for a quadrotor tracking simulation.
 
-A 6-dof quadrotor is tasked with tracking a moving target quadrotor.
+A 2-dof quadrotor is tasked with tracking a moving target quadrotor using velocity-based deep guidance.
 
 All dynamic environments I create will have a standardized architecture. The
 reason for this is I have one learning algorithm and many environments. All

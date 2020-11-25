@@ -19,21 +19,10 @@ import os
 import queue
 from collections import deque
 from pyvirtualdisplay import Display # for rendering
-import sys
 
 from settings import Settings
 from build_neural_networks import BuildActorNetwork
 environment_file = __import__('environment_' + Settings.ENVIRONMENT) # importing the environment
-
-# For printing out all variables and their sizes
-def sizeof_fmt(num, suffix='B'):
-    ''' by Fred Cirera,  https://stackoverflow.com/a/1094933/1870254, modified'''
-    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
-        if abs(num) < 1024.0:
-            return "%3.1f %s%s" % (num, unit, suffix)
-        num /= 1024.0
-    return "%.1f %s%s" % (num, 'Yi', suffix)
-
 
 class Agent:
 
@@ -229,11 +218,6 @@ class Agent:
                 ##### Running the Policy #####
                 ##############################
                 action = self.sess.run(self.policy.action_scaled, feed_dict = {self.state_placeholder: np.expand_dims(observation,0)})[0] # Expanding the observation to be a 1x3 instead of a 3
-                
-#                time.sleep(0.1)
-#                for name, size in sorted(((name, sys.getsizeof(value)) for name, value in globals().items()),
-#                                     key= lambda x: -x[1])[:10]:
-#                    print("{:>30}: {:>8}".format(name, sizeof_fmt(size)))
 
                 # Calculating random action to be added to the noise chosen from the policy to force exploration.
                 if Settings.UNIFORM_OR_GAUSSIAN_NOISE:
