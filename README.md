@@ -6,3 +6,5 @@ Hovell, K., Ulrich, S., and Bronz, M., “Acceleration-based Quadrotor Guidance 
 This GitHub respository contains all the code used in the paper. It is a D4PG implementation of both a velocity- and acceleration-based guidance system for quadrotors. In the paper, we show that the acceleration-based implementation is more approriate for second-order systems.
 
 To run, first modify settings in environment_quad1_accel.py and settings.py. Then run python3 on the main.py to begin training.
+
+Tensorflow version 1.15 was used for this work.
